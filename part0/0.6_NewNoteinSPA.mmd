@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User types a new note and clicks "Save"
+
+    browser->>browser: JavaScript prevents default form submission
+    Note right of browser: spa.js captures the input
+
+    browser->>browser: JavaScript creates a new note object (content, date)
+    Note right of browser: The new note is added to the JavaScript's internal data structure
+
+    browser->>browser: JavaScript updates the displayed notes on the page using the DOM API
+    Note right of browser: The user sees the new note instantly without a page reload
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    Note right of browser: JavaScript sends the new note data as JSON in the request body
+    Note right of browser: Content-Type header is set to application/json
+    activate server
+    server-->>browser: 201 Created
+    deactivate server
+
+    Note right of browser: The browser remains on the same page; no reload occurs
